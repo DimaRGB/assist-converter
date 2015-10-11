@@ -4,12 +4,14 @@ document.addEventListener('DOMContentLoaded', function (event) {
   var qstTextArea = document.getElementById('qst');
   var fileElement = document.getElementById('file');
   var downloadLink = document.getElementById('download');
+  var newLine = (window.navigator && /win/i.test(navigator.platform)) ? '\r\n' : '\n';
   var qstFileName = 'converted_test';
 
   form.addEventListener('submit', function (event) {
     event.preventDefault();
-    qstTextArea.value = convertToQST(srcTextArea.value);
-    setDownloadData(qstTextArea.value);
+    var convertedText = convertToQST(srcTextArea.value);
+    qstTextArea.value = convertedText;
+    setDownloadData(convertedText);
   });
 
   fileElement.addEventListener('change', function (event) {
@@ -17,8 +19,9 @@ document.addEventListener('DOMContentLoaded', function (event) {
     qstFileName = file.name;
     readFile(fileElement.files[0], function (srcText) {
       srcTextArea.value = srcText;
-      qstTextArea.value = convertToQST(srcText);
-      setDownloadData(qstTextArea.value);
+      var convertedText = convertToQST(srcText);
+      qstTextArea.value = convertedText;
+      setDownloadData(convertedText);
     });
   });
 
@@ -37,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
     // replace false answers to -
     var qstText = qstText.replace(/^[ \t]*.[.][ \t]*/img, '-');
     // get only qustions and answers
-    var qstText = '?\n' + qstText.match(/.*[:?.][ \t]*$(\n[+-]\S.*)*/img).join('\n?\n');
+    var qstText = '?' + newLine + qstText.match(/.*[:?.][ \t]*$(\n[+-]\S.*)*/img).join(newLine + '?' + newLine);
     return qstText;
   }
 
