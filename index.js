@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
   var qstTextArea = document.getElementById('qst');
   var fileElement = document.getElementById('file');
   var downloadLink = document.getElementById('download');
-  var newLine = (window.navigator && /win/i.test(navigator.platform)) ? '\r\n' : '\n';
+  var newLineSymbol = (window.navigator && /win/i.test(navigator.platform)) ? '\r\n' : '\n';
   var qstFileName = 'converted_test';
 
   form.addEventListener('submit', function (event) {
@@ -40,8 +40,9 @@ document.addEventListener('DOMContentLoaded', function (event) {
     // replace false answers to -
     var qstText = qstText.replace(/^[ \t]*.[.][ \t]*/img, '-');
     // get only qustions and answers
-    var qstText = '?' + newLine + qstText.match(/.*[:?.][ \t]*$(\n[+-]\S.*)*/img).join(newLine + '?' + newLine);
-    return qstText;
+    var qstText = '?\n' + qstText.match(/.*[:?.][ \t]*$(\n[+-]\S.*)*/img).join('\n?\n');
+    // replace all \n to operation system new line symbol
+    return qstText.replace(/\n/g, newLineSymbol);
   }
 
   function setDownloadData (qstText) {
