@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
   var fileElement = document.getElementById('file');
   var downloadLink = document.getElementById('download');
   var newLineSymbol = (window.navigator && /win/i.test(navigator.platform)) ? '\r\n' : '\n';
-  var qstFileName = 'converted_test';
+  var qstFileName = 'Новий тест';
 
   form.addEventListener('submit', function (event) {
     event.preventDefault();
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
   function setDownloadData (qstText) {
     downloadLink.download = qstFileName.replace(/[.]\S*$/im, '') + '.qst';
-    downloadLink.href = 'data:application/octet-stream;charset=ISO-8859-1,' + encodeURIComponent(qstText);
+    downloadLink.href = 'data:application/octet-stream;charset=Windows-1252,' + encodeURIComponent(qstText);
   }
 
 });

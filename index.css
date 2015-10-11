@@ -45,6 +45,7 @@ button[type=submit] {
   border-radius: 16px;
   color: black;
   cursor: pointer;
+  font-family: sans-serif;
   font-size: 16px;
   font-weight: normal;
   line-height: 1;
