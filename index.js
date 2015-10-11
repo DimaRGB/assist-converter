@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
   function setDownloadData (qstText) {
     downloadLink.download = qstFileName.replace(/[.]\S*$/im, '') + '.qst';
-    downloadLink.href = 'data:application/octet-stream,' + encodeURIComponent(qstText);
+    downloadLink.href = 'data:application/octet-stream;charset=ISO-8859-1,' + encodeURIComponent(qstText);
   }
 
 });
