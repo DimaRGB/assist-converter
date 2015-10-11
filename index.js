@@ -50,4 +50,6 @@ document.addEventListener('DOMContentLoaded', function (event) {
     downloadLink.href = 'data:application/octet-stream;charset=Windows-1252,' + encodeURIComponent(qstText);
   }
 
+  console.log('test');
+
 });
