@@ -18,15 +18,6 @@ h2:first-of-type {
   margin-top: 0;
 }
 
-input[type=file] {
-  background-color: #777;
-  color: #ffe;
-  cursor: pointer;
-  font-size: 16px;
-  margin-left: 8px;
-  padding: 6px;
-}
-
 hr {
   margin: 16px 0;
 }
@@ -37,13 +28,8 @@ form {
   width: 100%;
 }
 
-textarea {
-  flex: 1;
-  font-size: 12px;
-}
-
 button[type=submit] {
-  background-color: rgba(0, 255, 0, .4);
+  background-color: rgba(255, 255, 0, .4);
   border-radius: 16px;
   cursor: pointer;
   font-size: 16px;
@@ -51,4 +37,57 @@ button[type=submit] {
   margin-left: 8px;
   outline: none;
   padding: 8px 16px;
+}
+
+#download {
+  background-color: rgba(0, 255, 0, .4);
+  border: 2px outset buttonface;
+  border-radius: 16px;
+  color: black;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 1;
+  margin-left: 8px;
+  outline: none;
+  padding: 8px 16px;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  -ms-user-select: none;
+}
+
+#download:active {
+  border-style: inset;
+  color: black;
+}
+
+.form__areas {
+  display: flex;
+}
+
+textarea:first-of-type {
+  margin-left: 0;
+}
+
+textarea {
+  flex: 1;
+  font-size: 12px;
+  margin-left: 8px;
+}
+
+#qst {
+  background-color: #eee;
+  outline: none;
+}
+
+input[type=file] {
+  background-color: #777;
+  color: #ffe;
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 8px;
+  padding: 6px;
 }

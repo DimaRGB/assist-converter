@@ -12,8 +12,12 @@
     <form id='form'>
       <h2>Скопіюйте і вставте тести сюда та нажміть кпопку
         <button type='submit'>Конвертувати</button>
+        <a id='download'>Завантажити qst файл</a>
       </h2>
-      <textarea rows='40' required></textarea>
+      <div class='form__areas'>
+        <textarea id='src' rows='40' required></textarea>
+        <textarea id='qst' rows='40' readonly></textarea>
+      </div
     </form>
     <hr />
     <h2>або виберіть файл з тестами
