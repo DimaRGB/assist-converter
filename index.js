@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', function (event) {
   var qstTextArea = document.getElementById('qst');
   var fileElement = document.getElementById('file');
   var downloadLink = document.getElementById('download');
-  var newLineSymbol = (window.navigator && /win/i.test(navigator.platform)) ? '\r\n' : '\n';
   var qstFileName = 'Новий тест';
 
   form.addEventListener('submit', function (event) {
@@ -22,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
       var convertedText = convertToQST(srcText);
       qstTextArea.value = convertedText;
       setDownloadData(convertedText);
+      fileElement.value = null;
     });
   });
 
@@ -35,12 +35,86 @@ document.addEventListener('DOMContentLoaded', function (event) {
   }
 
   function convertToQST (srcText) {
-    // replace true answers to +
-    var qstText = srcText.replace(/^[ \t]*.[.][ \t]*[*@][ \t]*/img, '+');
-    // replace false answers to -
-    var qstText = qstText.replace(/^[ \t]*.[.][ \t]*/img, '-');
-    // get only qustions and answers
-    var qstText = '?\n' + qstText.match(/.*[:?.][ \t]*$(\n[+-]\S.*)*/img).join('\n?\n');
+    // remove all empty lines and empty spaces
+    var qstText = srcText.replace(/\s*\n+\s*/g, '\n');
+
+    // primary regular expressions
+    var newLineSymbol = (window.navigator && /win/i.test(navigator.platform)) ? '\r\n' : '\n';
+    var dotC = '[.)]';
+    var plusC = '[*@+]';
+    var minusC = '[-]';
+
+    // answer and quetion regular expressions
+    var notEmptyLineRegExp = /^.+$/im;
+    var answerRegExps = {
+      'digit':  new RegExp('(\\n^' + plusC + '?\s*\\d' + dotC + '.+$){2,}', 'im'),
+      'letter': new RegExp('(\\n^' + plusC + '?\s*[A-ZА-Я]' + dotC + '.+$){2,}', 'im')
+    };
+    var questionRegExps = {
+      'digit': new RegExp(notEmptyLineRegExp.source + answerRegExps.digit.source, 'img'),
+      'letter': new RegExp(notEmptyLineRegExp.source + answerRegExps.letter.source, 'img')
+    };
+
+    // search all meta questions, priority start with letter, after start with digit
+    var metaQuestions = [];
+    var letterQuestions = qstText.match(questionRegExps.letter);
+    var digitQuestions = qstText.replace(questionRegExps.letter, '\n').match(questionRegExps.digit);
+    metaQuestions = letterQuestions ? metaQuestions.concat(letterQuestions) : metaQuestions;
+    metaQuestions = digitQuestions ? metaQuestions.concat(digitQuestions) : metaQuestions;
+
+    // detect only real quetions
+    var questions = [];
+    for( var i = 0; i < metaQuestions.length; i++ ) {
+      var quetion = metaQuestions[i];
+      var arr = quetion.split('\n');
+      var quetionText = arr[0];
+      var metaAnswers = arr.slice(1);
+      var answers = [];
+      var isRealQuestion = false;
+
+      // TODO: check for difference between quetion and answers types
+
+      // check for plus and minus chars and convert
+      for( var j = 0; j < metaAnswers.length; j++ ) {
+        var answer = metaAnswers[j];
+        var prefixRegExp = new RegExp('\\S' + dotC + '\\s*', 'im');
+        var startRegExp = new RegExp('^' + prefixRegExp.source, 'im');
+        var plusRegExp1 = new RegExp('^' + plusC + '\\s*' + prefixRegExp.source, 'im');
+        var plusRegExp2 = new RegExp(startRegExp.source + plusC + '\\s*', 'im');
+        var plusRegExp3 = new RegExp(plusC + '$', 'im');
+        var minusRegExp = new RegExp('^' + minusC + '?\\s*' + prefixRegExp.source, 'im');
+        if( plusRegExp1.test(answer) ) {
+          answer = '+' + answer.replace(plusRegExp1, '');
+          isRealQuestion = true;
+        } else if( plusRegExp2.test(answer) ) {
+          answer = '+' + answer.replace(plusRegExp2, '');
+          isRealQuestion = true;
+        } else if( plusRegExp3.test(answer) ) {
+          answer = '+' + answer.replace(plusRegExp3, '').replace(startRegExp, '');
+          isRealQuestion = true;
+        } else {
+          answer = '-' + answer.replace(minusRegExp, '');
+        }
+        answers.push(answer);
+      }
+
+      // push to questions if real question
+      if( isRealQuestion ) {
+        questions.push(quetionText + '\n' + answers.join('\n'));
+      }
+    }
+
+    // TODO: remove old method
+    // // replace true answers to +
+    // var qstText = srcText.replace(/^[ \t]*.[.][ \t]*[*@][ \t]*/img, '+');
+    // // replace false answers to -
+    // qstText = qstText.replace(/^[ \t]*.[.][ \t]*/img, '-');
+    // // get only qustions and answers
+    // var questions = qstText.match(/.*[:?.][ \t]*$(\n[+-]\S.*)*/img);
+
+    // join quetions to qstText
+    qstText = '?\n' + questions.join('\n?\n');
+
     // replace all \n to operation system new line symbol
     return qstText.replace(/\n/g, newLineSymbol);
   }
@@ -49,7 +123,4 @@ document.addEventListener('DOMContentLoaded', function (event) {
     downloadLink.download = qstFileName.replace(/[.]\S*$/im, '') + '.qst';
     downloadLink.href = 'data:application/octet-stream;charset=Windows-1252,' + encodeURIComponent(qstText);
   }
-
-  console.log('test');
-
 });
