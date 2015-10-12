@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
   var srcTextArea = document.getElementById('src');
   var qstTextArea = document.getElementById('qst');
   var fileElement = document.getElementById('file');
-  var downloadLink = document.getElementById('download');
+  var downloadButton = document.getElementById('download');
   var qstFileName = 'Новий тест';
 
   form.addEventListener('submit', function (event) {
@@ -104,14 +104,6 @@ document.addEventListener('DOMContentLoaded', function (event) {
       }
     }
 
-    // TODO: remove old method
-    // // replace true answers to +
-    // var qstText = srcText.replace(/^[ \t]*.[.][ \t]*[*@][ \t]*/img, '+');
-    // // replace false answers to -
-    // qstText = qstText.replace(/^[ \t]*.[.][ \t]*/img, '-');
-    // // get only qustions and answers
-    // var questions = qstText.match(/.*[:?.][ \t]*$(\n[+-]\S.*)*/img);
-
     // join quetions to qstText
     qstText = '?\n' + questions.join('\n?\n');
 
@@ -120,7 +112,11 @@ document.addEventListener('DOMContentLoaded', function (event) {
   }
 
   function setDownloadData (qstText) {
-    downloadLink.download = qstFileName.replace(/[.]\S*$/im, '') + '.qst';
-    downloadLink.href = 'data:application/octet-stream;charset=Windows-1252,' + encodeURIComponent(qstText);
+    downloadButton.onclick = function () {
+      var downloadLink = document.createElement('a');
+      downloadLink.download = qstFileName.replace(/[.]\S*$/im, '') + '.qst';
+      downloadLink.href = 'data:application/octet-stream;charset=Windows-1252,' + encodeURIComponent(qstText);
+      downloadLink.click();
+    };
   }
 });

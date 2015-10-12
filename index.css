@@ -28,41 +28,22 @@ form {
   width: 100%;
 }
 
+button {
+  border-radius: 16px;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  margin-left: 8px;
+  outline: none;
+  padding: 8px 16px;
+}
+
 button[type=submit] {
   background-color: rgba(255, 255, 0, .4);
-  border-radius: 16px;
-  cursor: pointer;
-  font-size: 16px;
-  line-height: 1;
-  margin-left: 8px;
-  outline: none;
-  padding: 8px 16px;
 }
 
-#download {
+button#download {
   background-color: rgba(0, 255, 0, .4);
-  border: 2px outset buttonface;
-  border-radius: 16px;
-  color: black;
-  cursor: pointer;
-  font-family: sans-serif;
-  font-size: 16px;
-  font-weight: normal;
-  line-height: 1;
-  margin-left: 8px;
-  outline: none;
-  padding: 8px 16px;
-  text-decoration: none;
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -o-user-select: none;
-  -ms-user-select: none;
-}
-
-#download:active {
-  border-style: inset;
-  color: black;
 }
 
 .form__areas {
