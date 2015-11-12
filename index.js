@@ -35,13 +35,16 @@ document.addEventListener('DOMContentLoaded', function (event) {
   }
 
   function convertToQST(srcText) {
-    var qst;
+    var newLineSymbol = (window.navigator && /win/i.test(navigator.platform)) ? '\r\n' : '\n';
+    var qstText;
     [].forEach.call(form.querySelectorAll('[name=alg]'), function (radio) {
       if( radio.checked ) {
-        qst = eval(radio.value + '(srcText)');
+        qstText = eval(radio.value + '(srcText)');
       }
     });
-    return qst;
+    
+    // replace all \n to operation system new line symbol
+    return qstText.replace(/\n/g, newLineSymbol);
   }
 
   function convertToQSTAlg1 (srcText) {
@@ -49,7 +52,6 @@ document.addEventListener('DOMContentLoaded', function (event) {
     var qstText = srcText.replace(/\s*\n+\s*/g, '\n');
 
     // primary regular expressions
-    var newLineSymbol = (window.navigator && /win/i.test(navigator.platform)) ? '\r\n' : '\n';
     var dotC = '[.)]';
     var plusC = '[*@+]';
     var minusC = '[-]';
@@ -115,10 +117,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
     }
 
     // join quetions to qstText
-    qstText = '?\n' + questions.join('\n?\n');
-
-    // replace all \n to operation system new line symbol
-    return qstText.replace(/\n/g, newLineSymbol);
+    return '?\n' + questions.join('\n?\n');
   }
 
   function convertToQSTAlg2 (srcText) {
