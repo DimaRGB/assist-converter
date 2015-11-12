@@ -34,7 +34,17 @@ document.addEventListener('DOMContentLoaded', function (event) {
     reader.readAsText(file);
   }
 
-  function convertToQST (srcText) {
+  function convertToQST(srcText) {
+    var qst;
+    [].forEach.call(form.querySelectorAll('[name=alg]'), function (radio) {
+      if( radio.checked ) {
+        qst = eval(radio.value + '(srcText)');
+      }
+    });
+    return qst;
+  }
+
+  function convertToQSTAlg1 (srcText) {
     // remove all empty lines and empty spaces
     var qstText = srcText.replace(/\s*\n+\s*/g, '\n');
 
@@ -109,6 +119,27 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
     // replace all \n to operation system new line symbol
     return qstText.replace(/\n/g, newLineSymbol);
+  }
+
+  function convertToQSTAlg2 (srcText) {
+    return srcText
+      .match(/\?.+(\n[^?].*)+/img)
+      .map(function (item) {
+        var q = item.match(/^\?.+$\n/img)[0];
+        q = q.replace(/^\?(.+)$/img, '?\n$1');
+
+        var ans = item.replace(/^\?.+$\n/img, '');
+
+        var p = ans.split('!')[0];
+        var m = ans.split('!')[1];
+
+        p = p.replace(/^(.+)$/img, '+$1');
+        m = m.replace(/^(.+)$/img, '-$1');
+
+        return q + p + m;
+      })
+      .join('\n')
+      .replace(/\n\n/g, '\n');
   }
 
   function setDownloadData (qstText) {

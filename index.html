@@ -10,13 +10,24 @@
 <body>
   <main>
     <form id='form'>
+      <fieldset id='algContainer'>
+        <label>
+          <input type='radio' name='alg' value='convertToQSTAlg1' checked='checked' />
+          Перший алгоритм
+        </label>
+        <span> --- </span>
+        <label>
+          <input type='radio' name='alg' value='convertToQSTAlg2' />
+          Другий алгоритм
+        </label>
+      </fieldset>
       <h2>Скопіюйте і вставте тести сюда та нажміть кпопку
         <button type='submit'>Конвертувати</button>
         <button type='button' id='download'>Завантажити qst файл</button>
       </h2>
       <div class='form__areas'>
-        <textarea id='src' rows='40' required></textarea>
-        <textarea id='qst' rows='40' readonly></textarea>
+        <textarea id='src' rows='36' required></textarea>
+        <textarea id='qst' rows='36' readonly></textarea>
       </div
     </form>
     <hr />

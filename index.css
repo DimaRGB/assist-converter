@@ -28,6 +28,14 @@ form {
   width: 100%;
 }
 
+fieldset {
+  margin-bottom: 8px;
+}
+
+label {
+  cursor: pointer;
+}
+
 button {
   border-radius: 16px;
   cursor: pointer;
