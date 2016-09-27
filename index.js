@@ -47,6 +47,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
     return qstText.replace(/\n/g, newLineSymbol);
   }
 
+  // example: terap.txt
   function convertToQSTAlg1 (srcText) {
     // remove all empty lines and empty spaces
     var qstText = srcText.replace(/\s*\n+\s*/g, '\n');
@@ -139,6 +140,14 @@ document.addEventListener('DOMContentLoaded', function (event) {
       })
       .join('\n')
       .replace(/\n\n/g, '\n');
+  }
+
+  // example: terap2.txt
+  function convertToQSTAlg3(srcText) {
+    return srcText
+      .replace(/^([^\d#@])/img, '-$1')
+      .replace(/@/img, '+')
+      .replace(/#/img, '?')
   }
 
   function setDownloadData (qstText) {
