@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
         qstText = eval(radio.value + '(srcText)');
       }
     });
-    
+
     // replace all \n to operation system new line symbol
     return qstText.replace(/\n/g, newLineSymbol);
   }
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
     var qstText = srcText.replace(/\s*\n+\s*/g, '\n');
 
     // primary regular expressions
-    var dotC = '[.)]';
+    var dotC = '[.)]?';
     var plusC = '[*@+]';
     var minusC = '[-]';
 
