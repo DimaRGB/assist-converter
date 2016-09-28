@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
     downloadButton.onclick = function () {
       var downloadLink = document.createElement('a');
       downloadLink.download = qstFileName.replace(/[.]\S*$/im, '') + '.qst';
-      downloadLink.href = 'data:application/octet-stream;charset=Windows-1252,' + encodeURIComponent(qstText);
+      downloadLink.href = 'data:application/octet-stream;charset=Windows-1251,' + encodeURIComponent(qstText);
       downloadLink.click();
     };
   }
